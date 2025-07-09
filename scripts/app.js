@@ -80,6 +80,8 @@ function handleClick(event)
 
     //console.log(squareIndex);
     placePiece(squareIndex);
+    checkForTie();
+    render();
 }
 
 function placePiece(index)
@@ -114,8 +116,20 @@ function checkForWinner()
             winner = true;
         }
     });
+}
 
-    render();
+function checkForTie()
+{
+    if(winner) return;
+
+    if(board.some(x => x == ""))
+    {
+        tie = false;
+    }
+    else
+    {
+        tie = true;
+    }
 }
 
 /*----------------------------- Event Listeners -----------------------------*/
