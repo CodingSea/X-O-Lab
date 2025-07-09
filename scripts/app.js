@@ -80,7 +80,9 @@ function handleClick(event)
 
     //console.log(squareIndex);
     placePiece(squareIndex);
+    checkForWinner();
     checkForTie();
+    switchPlayerTurn();
     render();
 }
 
@@ -89,20 +91,6 @@ function placePiece(index)
     if(winner) return;
 
     board[index] = turn;
-    // this was moved here to make the turn not change in case someone won
-    checkForWinner();
-    
-    if(winner == false)
-    {
-        if(turn == "X")
-        {
-            turn = "O";
-        }
-        else
-        {
-            turn = "X"
-        }
-    }
 }
 
 function checkForWinner()
@@ -129,6 +117,21 @@ function checkForTie()
     else
     {
         tie = true;
+    }
+}
+
+function switchPlayerTurn()
+{
+    if(winner == false)
+    {
+        if(turn == "X")
+        {
+            turn = "O";
+        }
+        else
+        {
+            turn = "X"
+        }
     }
 }
 
