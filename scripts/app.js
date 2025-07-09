@@ -22,6 +22,7 @@ let tie;
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll(".sqr");
 const messageEl = document.querySelector("#message");
+const resetBtnEl = document.querySelector("#reset");
 
 /*-------------------------------- Functions --------------------------------*/
 function init()
@@ -78,7 +79,6 @@ function handleClick(event)
         return;
     }
 
-    //console.log(squareIndex);
     placePiece(squareIndex);
     checkForWinner();
     checkForTie();
@@ -144,3 +144,4 @@ squareEls.forEach((event) =>
         
     });
 });
+resetBtnEl.addEventListener('click', init);
