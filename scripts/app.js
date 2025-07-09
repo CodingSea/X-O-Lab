@@ -1,12 +1,4 @@
 /*-------------------------------- Constants --------------------------------*/
-
-
-
-/*---------------------------- Variables (state) ----------------------------*/
-let board;
-let turn;
-let winner;
-let tie;
 const winningCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -19,6 +11,14 @@ const winningCombos = [
 ];
 
 
+/*---------------------------- Variables (state) ----------------------------*/
+let board;
+let turn;
+let winner;
+let tie;
+
+
+
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll(".sqr");
 const messageEl = document.querySelector("#message");
@@ -26,9 +26,9 @@ const messageEl = document.querySelector("#message");
 /*-------------------------------- Functions --------------------------------*/
 function init()
 {
-    board = ["X", "O", "",
-                "", "X", "", 
-                "", "O", "X"];
+    board = ["", "", "",
+             "", "", "", 
+             "", "", "" ];
     turn = "X";
     winner = false;
     tie = false;
@@ -49,7 +49,7 @@ function updateBoard()
 
 function updateMessage()
 {
-    if(tie && winner == false)
+    if(tie == true && winner == false)
     {
         messageEl.textContent = `Tie game!`;
     }
@@ -72,7 +72,50 @@ function render()
 function handleClick(event)
 {
     const squareIndex = event.id;
-    console.log(squareIndex);
+
+    if(board[squareIndex] != "")
+    {
+        return;
+    }
+
+    //console.log(squareIndex);
+    placePiece(squareIndex);
+}
+
+function placePiece(index)
+{
+    if(winner) return;
+
+    board[index] = turn;
+    // this was moved here to make the turn not change in case someone won
+    checkForWinner();
+    
+    if(winner == false)
+    {
+        if(turn == "X")
+        {
+            turn = "O";
+        }
+        else
+        {
+            turn = "X"
+        }
+    }
+}
+
+function checkForWinner()
+{
+    winningCombos.forEach(combo => 
+    {
+        if(board[combo[0]] !== "" &&
+           board[combo[0]] === board[combo[1]] &&
+           board[combo[0]] === board[combo[2]])
+        {
+            winner = true;
+        }
+    });
+
+    render();
 }
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -80,6 +123,7 @@ document.addEventListener("DOMContentLoaded", init);
 squareEls.forEach((event) => 
 {
     event.addEventListener('click', () => {
-        handleClick(event.target);
-    })
+        handleClick(event);
+        
+    });
 });
